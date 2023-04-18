@@ -48,7 +48,7 @@
 
 
       const [exam , setExam] = useState({
-        id:"5",
+        id:"3",
         name:"",
         desc:"",
         level:"",
@@ -179,7 +179,8 @@
                      placeholder="Enter Exam des" /> 
 
                      <label htmlFor="">Enter Exam Level </label>
-                      <input onChange={(e) => handleInput(e)} name="level"   type="text" placeholder="Enter Exam Level" /> 
+                      <input onChange={(e) => handleInput(e)} name="level"
+                      type="text" placeholder="Enter Exam Level" /> 
 
                       <label htmlFor="">Enter Total Question </label>
                       <input onChange={(e) => handleInput(e)} name="totalQuestion"   
@@ -192,6 +193,10 @@
                      <label htmlFor="">Enter Pass Marks </label>
                      <input onChange={(e) => handleInput(e)} name="passMarks"   
                      type="text" placeholder="Enter Pass Marks" /> 
+
+                     <label htmlFor="">Enter Time(in min) </label>
+                     <input onChange={(e) => handleInput(e)} name="time"   
+                     type="text" placeholder="Enter Exam time" /> 
 
                       <div id={style.buttonBox}>
                          <button onClick={handleAddNewExam} >Add</button>

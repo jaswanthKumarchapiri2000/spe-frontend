@@ -19,6 +19,9 @@ function Test() {
     const [PassMarks ,setPassMarks] = useState("");
     const [totalQuestion , settotalQuestion] = useState("");
     const [totalMarks, settotalMarks] = useState("");
+    const [answer , setAnswer] = useState("");
+    const [time, setTime] = useState(100); // 90 minutes = 5400 seconds
+    const [timer, setTimer] = useState(null);
 
 
     useEffect(() => {
@@ -30,24 +33,27 @@ function Test() {
             setPassMarks(value.data[0].ename.passMarks);
             settotalQuestion(value.data[0].ename.totalQuestion);
             settotalMarks(value.data[0].ename.marks);
+            setTime(parseInt(value.data[0].ename.time) * 60);
+
         }
         getAllQuestions();
     },[id]);
 
-    // ---------------------------------------------------------
-    
-    // const [userAnswer , setUserAnswer] = useState({
-    //     answer1:"",
-    //     answer2:"",
-    //     answer3:"",
-    // });
-    const [answer , setAnswer] = useState({
-        answer1:"",
-        answer2:"",
-        answer3:"",
-        answer4:"",
-        answer5:"",
-    });
+    useEffect(() => {
+    if (time === 0) {
+        clearInterval(timer);
+        submitTest();
+    }
+    }, [time]);
+
+    useEffect(() => {
+    setTimer(setInterval(() => {
+        setTime(prevTime => prevTime - 1);
+    }, 1000));
+
+    return () => clearInterval(timer);
+    }, []);
+
 
 
     let  correctAnswer  = [] ;
@@ -57,9 +63,11 @@ function Test() {
             ...answer, 
             [e.target.name] : e.target.value
     });
+    }
+
+   
       
        
-    }
 
     let count = 0;
     
@@ -79,14 +87,24 @@ function Test() {
         let score = 0;
         let status = "";
 
+        console.log(answer['answer'+1])
+
+        for(let i=-1; i<allQuestions.length-1;i++)
+        {
+            let variable = "answer"+(i+1);
+            if(correctAnswer[i] === answer[variable]) score++;
+
+        }
+
         
-            if(correctAnswer[0] === answer.answer1) score++;
-            if(correctAnswer[1] === answer.answer2) score++;
-            if(correctAnswer[2] === answer.answer3) score++;
-            if(correctAnswer[3] === answer.answer4) score++;
-            if(correctAnswer[4] === answer.answer5) score++;
+            // if(correctAnswer[0] === answer.answer1) score++;
+            // if(correctAnswer[1] === answer.answer2) score++;
+            // if(correctAnswer[2] === answer.answer3) score++;
+            // if(correctAnswer[3] === answer.answer4) score++;
+            // if(correctAnswer[4] === answer.answer5) score++;
         
-        // console.log(score);
+        console.log(score);
+
   
          if(score >= PassMarks) status="Pass";
          else status = "Fail";
@@ -118,10 +136,12 @@ function Test() {
      let history = useHistory();
 
     return (
-        <>
+        <div>
             <div id={style.displayBoxQuestionHeadingBox}>
                 <h1>Answer all the questions</h1>
             </div>
+            <div id={style.timer}><h2>Time Remaining: {Math.floor(time / 60)}:{(time % 60).toString().padStart(2, '0')} </h2></div>
+
             {
                  
                 allQuestions.map((data , i) => {
@@ -159,7 +179,7 @@ function Test() {
                 })
             }
             <div id={style.submitExam}><button onClick={submitTest}>Submit Exam</button></div>
-        </>
+        </div>
     );
 }
 

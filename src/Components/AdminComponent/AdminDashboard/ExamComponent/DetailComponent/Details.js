@@ -20,7 +20,8 @@
             passMarks:"",
             totalQuestion:"",
             marks:"",
-            date: ""
+            date: "",
+            time: "",
         });
 
         useEffect(() => {
@@ -84,6 +85,14 @@
                                   <th id={style.center}>Exam Level</th>
                                   <td id={style.center}> {exam.level} </td>
                                </tr>
+
+                               <tr>
+                                  <th id={style.center}>Exam Time</th>
+                                  <td id={style.center}> {exam.time} min </td>
+                               </tr>
+
+
+
                             </thead>
                          </table>
                      </div>
