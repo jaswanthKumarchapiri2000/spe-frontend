@@ -45,7 +45,7 @@
                         </thead>
                         <tbody>
                             {
-                                results.map((data , i) => {
+                                results && results.map((data , i) => {
                                     return(
                                           <tr key={i}>
                                               <td>{data.email.email}</td>

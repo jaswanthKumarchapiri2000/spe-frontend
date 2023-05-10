@@ -9,7 +9,7 @@
 
     import Result from "./ResultComponent/Result";
 import Exam from "./ExamComponent/Exam";
-import Test from "./TestComponent/Test";
+import Test from "./TestComponent/ExamTest";
 
 
 

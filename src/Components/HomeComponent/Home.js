@@ -18,7 +18,7 @@
                 </div>
 
               <div id={style.div1}>
-                  <img src={pic1} alt="" />
+                  <img src={pic1} alt="first-image" />
                   <span>Online Exam</span>
               </div>
 
@@ -27,14 +27,14 @@
             
                   <div className ={style.div3}>
                      <NavLink exact  to="/StudentLogin">
-                        <img src={pic2} alt="" />
+                        <img src={pic2} alt="second-image" />
                         <span>Student</span>
                      </NavLink>
                   </div>
 
                   <div  className ={style.div3}>
-                    <NavLink  to="/AdminLogin">
-                       <img src={pic3} alt="" />
+                    <NavLink exact to="/AdminLogin">
+                       <img src={pic3} alt="third-image" />
                        <span>Admin</span>
                      </NavLink> 
                   </div>

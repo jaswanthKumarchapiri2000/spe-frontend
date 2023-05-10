@@ -4,14 +4,14 @@
    import axios from "axios";
 
    import {useEffect , useState} from "react";
-   import {useHistory , useParams} from "react-router-dom";
+   import {useHistory , useLocation} from "react-router-dom";
 
    import baseUrl from "../../../../baseUrl";
 
     
     function Details(){
         
-        const {id} = useParams();
+      const id = new URLSearchParams(useLocation().search).get("id");
 
         const [exam  , setExam] = useState({
             name:"",
