@@ -8,6 +8,8 @@
 
    import baseUrl from "../../../../baseUrl";
 
+   let token="";
+
     
     function Details(){
         
@@ -27,7 +29,13 @@
         useEffect(() => {
           
              async function getExamDetails(){
-                const value = await axios.get(`${baseUrl}/exam/${id}`);
+               token=window.localStorage.getItem("token")
+                const value = await axios.get(`${baseUrl}/exam/${id}`,{
+                  headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': `Bearer ${token}`,  
+                 }
+                });
                 setExam(value.data);
              }
              getExamDetails();

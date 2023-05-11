@@ -8,6 +8,8 @@ import style from "./Subject.module.css";
  import axios from "axios";
  
  import baseUrl from "../../../baseUrl";
+ let token="";
+
 
 
   
@@ -35,7 +37,13 @@ import style from "./Subject.module.css";
          useEffect(()=>{
             
             async function getAllSubject(){
-                let value = await axios.get(`${baseUrl}/subject`);
+                token=window.localStorage.getItem("token")
+                let value = await axios.get(`${baseUrl}/subject`,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  
+                    }
+                });
                 setSubjects(value.data);
                   //console.log(value.data[0]);
             }
@@ -57,7 +65,13 @@ import style from "./Subject.module.css";
 
 
        async function handleAddNewSubject(){
-            await axios.post(`${baseUrl}/subject` , subject);
+        token=window.localStorage.getItem("token")
+            await axios.post(`${baseUrl}/subject` , subject,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+            });
             setStatus(true);
         }
 
@@ -68,7 +82,13 @@ import style from "./Subject.module.css";
     // ------------------------Deleting Subject and reload component------------------------------
 
        async function deleteSubject(name){
-          await axios.delete(`${baseUrl}/subject/${name}`);
+        token=window.localStorage.getItem("token")
+          await axios.delete(`${baseUrl}/subject/${name}`,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,  
+            }
+          });
           setStatusDelete(true);
        }
 

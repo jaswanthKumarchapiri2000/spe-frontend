@@ -8,6 +8,8 @@ import { useHistory, useParams } from "react-router-dom";
 import style from "../StudentDashboard.module.css";
 
 import baseUrl from "../../../baseUrl";
+let token="";
+
 
 function Test() {
 
@@ -128,8 +130,13 @@ function Test() {
        };
 
        console.log(data);
- 
-       await axios.post(`${baseUrl}/result` , data);
+       token=window.localStorage.getItem("token")
+       await axios.post(`${baseUrl}/result` , data,{
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,  
+        }
+       });
         history.push("/StudentDashboard/Result");
     }
 

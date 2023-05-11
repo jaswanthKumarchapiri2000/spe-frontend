@@ -6,13 +6,21 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 
 import baseUrl from "../../../baseUrl";
+let token="";
+
 
 function Subject() {
   const [allSubject, setAllSubject] = useState([]);
 
   useEffect(() => {
     async function getAllSubject() {
-      let value = await axios.get(`${baseUrl}/subject`);
+      token=window.localStorage.getItem("token")
+      let value = await axios.get(`${baseUrl}/subject`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,  
+      }
+      });
       setAllSubject(value.data);
     }
     getAllSubject();

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import baseUrl from "../../../../baseUrl";
+let token="";
 
 function AddQuestion() {
   const { id } = useParams();
@@ -39,8 +40,14 @@ function AddQuestion() {
     setQuestion(
       (question.sname = { name: document.getElementById("subjectField").value })
     );
+    token=window.localStorage.getItem("token")
+    await axios.post(`${baseUrl}/question`, question,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,  
+    }
 
-    await axios.post(`${baseUrl}/question`, question);
+    });
     history.push(`/AdminDashboard/Exam/ViewQuestion/${id}`);
   }
 

@@ -7,6 +7,8 @@
    import style from "../StudentDashboard.module.css";
 
    import baseUrl from "../../../baseUrl";
+   let token="";
+
 
 
 function Result() {
@@ -15,7 +17,13 @@ function Result() {
 
      useEffect(()=>{    
         async function getAllResults(){
-            let value = await axios.get(`${baseUrl}/user/${sessionStorage.getItem("user")}/result`);
+            token=window.localStorage.getItem("token")
+            let value = await axios.get(`${baseUrl}/user/${sessionStorage.getItem("user")}/result`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+            });
             
             setResults(value.data);
            // console.log(value.data);

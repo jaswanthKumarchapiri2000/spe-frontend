@@ -7,6 +7,8 @@
    import style from "../SubjectComponent/Subject.module.css"
 
    import baseUrl from "../../../baseUrl";
+   let token="";
+
    
 
 
@@ -17,7 +19,13 @@
         useEffect(()=>{
            
            async function getAllResults(){
-               let value = await axios.get(`${baseUrl}/result`);
+            token=window.localStorage.getItem("token")
+               let value = await axios.get(`${baseUrl}/result`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+               });
                setResults(value.data);
                //console.log(value.data[0]);
            }

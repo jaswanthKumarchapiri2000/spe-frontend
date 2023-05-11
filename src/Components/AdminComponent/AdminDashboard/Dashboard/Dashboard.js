@@ -8,6 +8,7 @@
    import axios from "axios";
 
    import baseUrl from "../../../baseUrl";
+   let token="";
 
      function Dashboard()
      {
@@ -17,22 +18,63 @@
           const [user , setUser] = useState("Updating...");
 
             useEffect(() => {
-                async function getAllExam(){
-                    let value  = await axios.get(`${baseUrl}/exam`);
-                    setExam("We have total " +value.data.length + " exam");
-                }
+
+                async function getAllExam() {
+                    token = window.localStorage.getItem("token");
+                    console.log("inside getallexam");
+                    console.log(token);
+                    try {
+                      let value = await axios.get(`${baseUrl}/exam`, {
+                        headers: {
+                          // 'Content-Type': 'application/json',
+                          Authorization: `Bearer ${token}`,
+                        },
+                      });
+                      setExam("We have total " + value.data.length + " exam");
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }
+
+                // async function getAllExam(){
+                //     token=window.localStorage.getItem("token")
+                //     console.log("inside getallexam")
+                //     console.log(token)
+                //     let value  = await axios.get(`${baseUrl}/exam`,{
+                //         headers: {
+                //                     // 'Content-Type': 'application/json',
+                //                     'Authorization': `Bearer ${token}`,  
+                //                 }
+                //       });
+                //     setExam("We have total " +value.data.length + " exam");
+                // }
                 getAllExam();
 
 
                 async function getAllQuestions(){
-                    let value  = await axios.get(`${baseUrl}/question`);
+                    token=window.localStorage.getItem("token")
+                    console.log("inside get all questions")
+                    let value  = await axios.get(`${baseUrl}/question`,{
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,  
+                        }
+                    }
+
+                    );
                     setQuestion("We have total " +value.data.length + " question");
                 }
                 getAllQuestions();
 
 
                 async function getAllUsers(){
-                    let value  = await axios.get(`${baseUrl}/user`);
+                    token=window.localStorage.getItem("token")
+                    let value  = await axios.get(`${baseUrl}/user`,{
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,  
+                        }
+                    });
                     setUser("We have total " +value.data.length + " user");
                 }
                 getAllUsers();

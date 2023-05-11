@@ -30,28 +30,51 @@
         }
         let history = useHistory();
   
-         async function login(e){
-             const value = await axios.get(`${baseUrl}/admin/${admin.admin_name}`); 
+        //  async function login(e){
+        //      const value = await axios.get(`${baseUrl}/admin/${admin.admin_name}`); 
 
-            //  console.log(value.data[0].admin_name);
-            //  console.log(admin.admin_name);
-           // console.log(value.data);
+        //     //  console.log(value.data[0].admin_name);
+        //     //  console.log(admin.admin_name);
+        //    // console.log(value.data);
 
-             if(value.data.name === admin.admin_name)
-             {
-                if(value.data.password === admin.admin_password){
-                    alert("success");
-                    history.push("/AdminDashboard");
+        //      if(value.data.name === admin.admin_name)
+        //      {
+        //         if(value.data.password === admin.admin_password){
+        //             alert("success");
+        //             history.push("/AdminDashboard");
+        //         }
+        //         else{
+        //             alert("Wrong Password");
+        //         }
+        //      }
+        //      else{
+        //          alert("Wrong Admin name");
+        //      }
+        //  }
+        
+       
+        async function login(e){
+            e.preventDefault();
+            try {
+                const response = await axios.post(`${baseUrl}/admin/login`, {
+                    "name": admin.admin_name,
+                    "password": admin.admin_password
+                });
+                localStorage.setItem("token", response.data);
+                console.log(response)
+                console.log(response.data)
+                console.log(window.localStorage.getItem("token"))
+                alert("success");
+                history.push("/AdminDashboard");
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    alert("Wrong Admin name or password");
+                } else {
+                    alert("Something went wrong");
                 }
-                else{
-                    alert("Wrong Password");
-                }
-             }
-             else{
-                 alert("Wrong Admin name");
-             }
-         }
-
+            }
+        }
+                
 
          return (
             <div id={style.container}>

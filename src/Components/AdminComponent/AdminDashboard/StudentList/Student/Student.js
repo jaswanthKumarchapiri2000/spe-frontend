@@ -6,6 +6,7 @@
   import React, {useState , useEffect} from "react";
   import axios from "axios";
   import baseUrl from "../../../../baseUrl";
+  let token="";
 
      function Student(){
 
@@ -17,8 +18,14 @@
 
          useEffect(() => {
              async function getStudentEmail(){
+                token=window.localStorage.getItem("token")
                  //user whose result we have to fetch
-                let value = await axios.get(`${baseUrl}/user/${id}`);
+                let value = await axios.get(`${baseUrl}/user/${id}`,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  
+                    }
+                });
                  setEmail(value.data.email);
 
                 //console.log(value.data.email);
@@ -30,7 +37,13 @@
 
          useEffect(() => {   
              async function getAllResult(){
-                let value = await axios.get(`${baseUrl}/result`);
+                token=window.localStorage.getItem("token")
+                let value = await axios.get(`${baseUrl}/result`,{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,  
+                    }
+                });
                 setResult(value.data);
                // console.log(value.data[0]);
              }

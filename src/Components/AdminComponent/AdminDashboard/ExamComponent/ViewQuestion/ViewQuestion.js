@@ -3,6 +3,7 @@ import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import style from "../../SubjectComponent/Subject.module.css";
 import baseUrl from "../../../../baseUrl";
+let token="";
 
 function ViewQuestion() {
   //  ---------------------- add Subject & close buttton working  -------------------------------------
@@ -28,7 +29,13 @@ function ViewQuestion() {
 
   useEffect(() => {
     async function getAllQuestions() {
-      let value = await axios.get(`${baseUrl}/exam/${id}/question`);
+      token=window.localStorage.getItem("token")
+      let value = await axios.get(`${baseUrl}/exam/${id}/question`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,  
+      }
+      });
       setQuestions(value.data);
       //console.log(value.data);
     }
@@ -75,7 +82,13 @@ function ViewQuestion() {
   const [check, setCheck] = useState();
 
   async function updateQuestion() {
-    await axios.put(`${baseUrl}/question/${qId}`, updatedQ);
+    token=window.localStorage.getItem("token")
+    await axios.put(`${baseUrl}/question/${qId}`, updatedQ,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,  
+    }
+    });
     setCheck(true);
   }
 
@@ -91,7 +104,13 @@ function ViewQuestion() {
   const [d, setD] = useState();
 
   async function deleteQuestion(id) {
-    await axios.delete(`${baseUrl}/question/${id}`);
+    token=window.localStorage.getItem("token")
+    await axios.delete(`${baseUrl}/question/${id}`,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,  
+    }
+    });
     setD(true);
   }
 

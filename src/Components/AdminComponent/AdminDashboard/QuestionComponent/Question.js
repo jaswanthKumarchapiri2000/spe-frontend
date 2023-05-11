@@ -9,6 +9,9 @@
 
    import {useEffect , useState} from "react";
 
+   let token="";
+
+
       function Question(){
 
         const [questions , setQuestions] = useState([]);
@@ -16,7 +19,13 @@
          useEffect(() => {
 
             async function getAllQuestions(){
-               const value = await axios.get(`${baseUrl}/question`);
+                token=window.localStorage.getItem("token")
+               const value = await axios.get(`${baseUrl}/question`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+               });
                 setQuestions(value.data);
             }
             getAllQuestions();

@@ -4,6 +4,8 @@ import { useParams ,NavLink } from "react-router-dom";
 
 import style from "../StudentDashboard.module.css";
 import baseUrl from "../../../baseUrl";
+let token="";
+
 
 function Exam() {
   const { category } = useParams();
@@ -11,8 +13,14 @@ function Exam() {
 
   useEffect(() => {
     async function getAllExams() {
+      token=window.localStorage.getItem("token")
       console.log(`Making a GET request to ${baseUrl}/exam`);
-      let value = await axios.get(`${baseUrl}/exam`);
+      let value = await axios.get(`${baseUrl}/exam`,{
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,  
+      }
+      });
       console.log(`Response from ${baseUrl}/exam:`, value.data);
       setAllExam(value.data);
     }

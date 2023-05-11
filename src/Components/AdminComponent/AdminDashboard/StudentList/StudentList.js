@@ -8,6 +8,8 @@
    import style from "../SubjectComponent/Subject.module.css";
 
    import baseUrl from "../../../baseUrl";
+   let token="";
+
 
      function StudentList(){
 
@@ -15,7 +17,13 @@
 
        useEffect(()=> {
          async function getAllStudent(){
-           let value = await axios.get(`${baseUrl}/user`);
+          token=window.localStorage.getItem("token")
+           let value = await axios.get(`${baseUrl}/user`,{
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,  
+          }
+           });
            setStudents(value.data);
          }
          getAllStudent();

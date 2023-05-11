@@ -9,6 +9,9 @@
 
     import baseUrl from "../../../baseUrl";
 
+    let token="";
+
+
     function Exam(){
 
 //  ---------------------- add Exam & close buttton working  -------------------------------------
@@ -32,7 +35,13 @@
       useEffect(()=>{
          
          async function getAllExam(){
-             let value = await axios.get(`${baseUrl}/exam`);
+            token=window.localStorage.getItem("token")
+             let value = await axios.get(`${baseUrl}/exam`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+             });
              setExams(value.data);
              console.log(value.data);
          }
@@ -85,7 +94,13 @@
 
        useEffect(() => {
            async function getAllQuestions(){
-               let value = await axios.get(`${baseUrl}/question`);
+            token=window.localStorage.getItem("token")
+               let value = await axios.get(`${baseUrl}/question`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+               });
                setQuestions(value.data);
             }
             getAllQuestions();
@@ -97,15 +112,26 @@
 
        async function deleteExam(id){
         //    console.log(id);
+        token=window.localStorage.getItem("token")
            
             for(let i=0; i<questions.length ;i++)
             {
                 if( parseInt( questions[i].exam_id) === parseInt( id )){
                     // console.log(questions[i].id);
-                    await axios.delete(`${baseUrl}/question/${questions[i].id}`);
+                    await axios.delete(`${baseUrl}/question/${questions[i].id}`,{
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,  
+                        }
+                    });
                 } 
             }
-            await axios.delete(`${baseUrl}/exam/${id}`);
+            await axios.delete(`${baseUrl}/exam/${id}`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  
+                }
+            });
             setStatusDeleteExam(true);
        }
 
